@@ -124,7 +124,9 @@ export default function ResultsTable({ results, onExport }: ResultsTableProps) {
                   }
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {result.cnam?.registered ? (
+                  {result.cnam?.registered === null ? (
+                    <span className="text-gray-400 italic">N/A via IPQS</span>
+                  ) : result.cnam?.registered ? (
                     <span className="text-green-600">{result.cnam.displayName || 'Registered'}</span>
                   ) : (
                     <span className="text-gray-400">Not registered</span>

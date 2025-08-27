@@ -131,7 +131,8 @@ export async function POST(request: NextRequest) {
           attestationLevel: 'unknown',
         },
         cnam: {
-          registered: false,
+          registered: null as any,
+          displayName: 'CNAM check not available via IPQS',
         },
         disconnected: !ipqsData.active,
         reassigned: false,
@@ -153,7 +154,8 @@ export async function POST(request: NextRequest) {
           flaggedByCarriers: [],
         },
         cnam: {
-          registered: false,
+          registered: null as any,
+          displayName: 'CNAM check not available via IPQS',
         },
       };
     } else {
