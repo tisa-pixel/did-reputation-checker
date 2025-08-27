@@ -81,7 +81,7 @@ function simulateReputationCheck(phoneNumber: string): ReputationCheck {
       spamLikely: isSpam,
       scamLikely: isScam,
       riskLevel,
-      flaggedByCarriers,
+      flaggedByCarriers: flaggedCarriers,
       attestationLevel: attestation,
     },
     cnam: {
