@@ -25,7 +25,13 @@ export default function Home() {
       if (result.reputation.riskLevel === 'high') {
         toast.error('⚠️ High risk number detected!');
       } else if (result.reputation.spamLikely || result.reputation.scamLikely) {
-        toast.warning('This number has been flagged');
+        toast('⚠️ This number has been flagged', {
+          icon: '⚠️',
+          style: {
+            background: '#FEF3C7',
+            color: '#92400E',
+          },
+        });
       } else {
         toast.success('Number checked successfully');
       }
