@@ -63,46 +63,26 @@ export default function HealthSummary({ result }: HealthSummaryProps) {
         </div>
       </div>
 
-      {result.dialMetrics && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-          <div className="flex items-center gap-2">
-            <Activity className="h-4 w-4 text-gray-400" />
-            <div>
-              <div className="text-sm font-medium text-gray-900">
-                {result.dialMetrics.totalDials?.toLocaleString() || 0}
-              </div>
-              <div className="text-xs text-gray-500">Total Dials</div>
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center gap-2">
+          <Shield className="h-4 w-4 text-gray-400" />
+          <div>
+            <div className="text-sm font-medium text-gray-900">
+              {result.reputation.attestationLevel || 'Unknown'}
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-gray-400" />
-            <div>
-              <div className="text-sm font-medium text-gray-900">
-                {result.dialMetrics.dailyAverage || 0}/day
-              </div>
-              <div className="text-xs text-gray-500">Daily Average</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-gray-400" />
-            <div>
-              <div className="text-sm font-medium text-gray-900">
-                {result.reputation.attestationLevel || 'Unknown'}
-              </div>
-              <div className="text-xs text-gray-500">STIR/SHAKEN</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-gray-400" />
-            <div>
-              <div className="text-sm font-medium text-gray-900">
-                {result.dialMetrics.daysSinceLastDial || 0}d
-              </div>
-              <div className="text-xs text-gray-500">Since Last Dial</div>
-            </div>
+            <div className="text-xs text-gray-500">STIR/SHAKEN</div>
           </div>
         </div>
-      )}
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4 text-gray-400" />
+          <div>
+            <div className="text-sm font-medium text-gray-900">
+              {result.carrier || 'Unknown'}
+            </div>
+            <div className="text-xs text-gray-500">Carrier</div>
+          </div>
+        </div>
+      </div>
 
       {recommendations.length > 0 && (
         <div>

@@ -60,9 +60,6 @@ export default function ResultsTable({ results, onExport }: ResultsTableProps) {
                 Health
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Dials
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Valid
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -109,26 +106,6 @@ export default function ResultsTable({ results, onExport }: ResultsTableProps) {
                     </div>
                   ) : (
                     <span className="text-xs text-gray-400">-</span>
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {result.dialMetrics ? (
-                    <div className="text-xs">
-                      <div className="font-medium text-gray-900">
-                        {result.dialMetrics.totalDials?.toLocaleString() || 0}
-                      </div>
-                      <div className="text-gray-500">
-                        {result.dialMetrics.dailyAverage || 0}/day
-                      </div>
-                      {result.dialMetrics.daysSinceLastDial !== undefined && 
-                       result.dialMetrics.daysSinceLastDial > 7 && (
-                        <div className="text-orange-600">
-                          {result.dialMetrics.daysSinceLastDial}d ago
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <span className="text-xs text-gray-400">No data</span>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">

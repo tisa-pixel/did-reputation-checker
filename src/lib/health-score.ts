@@ -23,13 +23,13 @@ export function calculateHealthScore(data: ReputationCheck): ReputationCheck {
     carrierQuality: 0,
     attestation: 0,
     spamRisk: 0,
-    dialActivity: 0,
+    dialActivity: 0,  // Kept for structure but not used in calculation
     age: 0,
   };
   
   const recommendations: string[] = [];
   
-  // 1. Carrier Quality Score (20 points max)
+  // 1. Carrier Quality Score (25 points max - increased)
   const carrierLower = (data.carrier || '').toLowerCase();
   let carrierScore = CARRIER_SCORES.default;
   
@@ -39,18 +39,19 @@ export function calculateHealthScore(data: ReputationCheck): ReputationCheck {
       break;
     }
   }
-  factors.carrierQuality = carrierScore;
+  // Scale up to 25 points
+  factors.carrierQuality = Math.round((carrierScore / 20) * 25);
   
-  // 2. Attestation Level Score (25 points max)
-  const attestationScores = { 'A': 25, 'B': 15, 'C': 5, 'unknown': 0 };
+  // 2. Attestation Level Score (35 points max - increased)
+  const attestationScores = { 'A': 35, 'B': 20, 'C': 10, 'unknown': 0 };
   factors.attestation = attestationScores[data.reputation.attestationLevel || 'unknown'];
   
-  if (factors.attestation < 15) {
+  if (factors.attestation < 20) {
     recommendations.push('Request A-level attestation from your provider');
   }
   
-  // 3. Spam Risk Score (30 points max)
-  let spamRiskScore = 30;
+  // 3. Spam Risk Score (40 points max - increased)
+  let spamRiskScore = 40;
   
   if (data.reputation.spamLikely) spamRiskScore -= 15;
   if (data.reputation.scamLikely) spamRiskScore -= 15;
@@ -72,39 +73,11 @@ export function calculateHealthScore(data: ReputationCheck): ReputationCheck {
     recommendations.push('Number has spam indicators - consider replacement');
   }
   
-  // 4. Dial Activity Score (15 points max)
-  if (data.dialMetrics) {
-    const { totalDials = 0, dailyAverage = 0, daysSinceLastDial = 999 } = data.dialMetrics;
-    
-    // Ideal: 20-100 dials per day
-    if (dailyAverage >= 20 && dailyAverage <= 100) {
-      factors.dialActivity = 15;
-    } else if (dailyAverage > 100) {
-      factors.dialActivity = 10; // Too high, might trigger spam
-      recommendations.push('Reduce daily dial volume to under 100 calls');
-    } else if (dailyAverage >= 10) {
-      factors.dialActivity = 12;
-    } else if (dailyAverage >= 5) {
-      factors.dialActivity = 8;
-      recommendations.push('Increase dial volume gradually to 20-50 calls/day');
-    } else {
-      factors.dialActivity = 5;
-      recommendations.push('Number needs more activity - aim for 20+ calls/day');
-    }
-    
-    // Penalty for inactive numbers
-    if (daysSinceLastDial > 30) {
-      factors.dialActivity = Math.max(0, factors.dialActivity - 5);
-      recommendations.push('Number inactive for 30+ days - needs warming up');
-    }
-  } else {
-    factors.dialActivity = 7; // Default middle score if no data
-    recommendations.push('Track dial metrics for better health assessment');
-  }
+  // 4. Dial Activity Score (removed from calculation)
+  factors.dialActivity = 0; // Not calculated anymore
   
-  // 5. Age Score (10 points max)
-  // This would need to be tracked separately - for now simulate
-  factors.age = 5; // Default middle score
+  // 5. Age Score (removed from calculation)
+  factors.age = 0; // Not calculated anymore
   
   // Calculate total score
   const totalScore = Object.values(factors).reduce((sum, val) => sum + val, 0);

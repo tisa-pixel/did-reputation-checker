@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ReputationCheck } from '@/types';
-import { calculateHealthScore, simulateDialMetrics } from '@/lib/health-score';
+import { calculateHealthScore } from '@/lib/health-score';
 
 async function checkIPQualityScore(phoneNumber: string) {
   const apiKey = process.env.IPQUALITYSCORE_API_KEY;
@@ -163,9 +163,6 @@ export async function POST(request: NextRequest) {
       result = simulateReputationCheck(phoneNumber);
     }
 
-    // Add dial metrics (in production, get from your call system)
-    result.dialMetrics = simulateDialMetrics();
-    
     // Calculate health score
     const resultWithScore = calculateHealthScore(result);
     
