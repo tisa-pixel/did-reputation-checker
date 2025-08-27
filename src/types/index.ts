@@ -25,11 +25,29 @@ export interface ReputationCheck {
     attestationLevel?: 'A' | 'B' | 'C' | 'unknown';
   };
   cnam?: {
-    registered: boolean;
+    registered: boolean | null;
     displayName?: string;
   };
   disconnected?: boolean;
   reassigned?: boolean;
+  dialMetrics?: {
+    totalDials?: number;
+    dailyAverage?: number;
+    lastDialDate?: string;
+    daysSinceLastDial?: number;
+  };
+  healthScore?: {
+    score: number;
+    grade: 'A' | 'B' | 'C' | 'D' | 'F';
+    factors: {
+      carrierQuality: number;
+      attestation: number;
+      spamRisk: number;
+      dialActivity: number;
+      age: number;
+    };
+    recommendations: string[];
+  };
   errors?: string[];
 }
 

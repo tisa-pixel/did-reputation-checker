@@ -57,6 +57,12 @@ export default function ResultsTable({ results, onExport }: ResultsTableProps) {
                 Phone Number
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Health
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Dials
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Valid
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -84,6 +90,46 @@ export default function ResultsTable({ results, onExport }: ResultsTableProps) {
               <tr key={index} className={result.reputation.riskLevel === 'high' ? 'bg-red-50' : ''}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {result.phoneNumber}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {result.healthScore ? (
+                    <div className="flex items-center gap-2">
+                      <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-bold ${
+                        result.healthScore.grade === 'A' ? 'bg-green-100 text-green-800' :
+                        result.healthScore.grade === 'B' ? 'bg-blue-100 text-blue-800' :
+                        result.healthScore.grade === 'C' ? 'bg-yellow-100 text-yellow-800' :
+                        result.healthScore.grade === 'D' ? 'bg-orange-100 text-orange-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {result.healthScore.grade}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {result.healthScore.score}%
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-gray-400">-</span>
+                  )}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {result.dialMetrics ? (
+                    <div className="text-xs">
+                      <div className="font-medium text-gray-900">
+                        {result.dialMetrics.totalDials?.toLocaleString() || 0}
+                      </div>
+                      <div className="text-gray-500">
+                        {result.dialMetrics.dailyAverage || 0}/day
+                      </div>
+                      {result.dialMetrics.daysSinceLastDial !== undefined && 
+                       result.dialMetrics.daysSinceLastDial > 7 && (
+                        <div className="text-orange-600">
+                          {result.dialMetrics.daysSinceLastDial}d ago
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <span className="text-xs text-gray-400">No data</span>
+                  )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {result.isValid ? (

@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import SingleNumberForm from '@/components/SingleNumberForm';
 import FileUpload from '@/components/FileUpload';
 import ResultsTable from '@/components/ResultsTable';
+import HealthSummary from '@/components/HealthSummary';
 import { PhoneValidator } from '@/lib/phone-validator';
 import { exportToCSV } from '@/lib/export';
 import { ReputationCheck } from '@/types';
@@ -152,6 +153,10 @@ export default function Home() {
                 />
               )}
             </div>
+            
+            {results.length === 1 && results[0] && (
+              <HealthSummary result={results[0]} />
+            )}
             
             {results.length > 0 && (
               <ResultsTable 

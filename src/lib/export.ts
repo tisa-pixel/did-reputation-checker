@@ -3,6 +3,11 @@ import { ReputationCheck } from '@/types';
 export function exportToCSV(results: ReputationCheck[]): void {
   const headers = [
     'Phone Number',
+    'Health Grade',
+    'Health Score',
+    'Total Dials',
+    'Daily Average',
+    'Days Since Last Dial',
     'Valid',
     'Carrier',
     'Line Type',
@@ -19,11 +24,17 @@ export function exportToCSV(results: ReputationCheck[]): void {
     'CNAM Display Name',
     'Disconnected',
     'Reassigned',
+    'Recommendations',
     'Checked At'
   ];
 
   const rows = results.map(result => [
     result.phoneNumber,
+    result.healthScore?.grade || '',
+    result.healthScore?.score || '',
+    result.dialMetrics?.totalDials || '',
+    result.dialMetrics?.dailyAverage || '',
+    result.dialMetrics?.daysSinceLastDial || '',
     result.isValid ? 'Yes' : 'No',
     result.carrier || '',
     result.lineType || '',
@@ -36,10 +47,11 @@ export function exportToCSV(results: ReputationCheck[]): void {
     result.reputation.scamLikely ? 'Yes' : 'No',
     result.reputation.attestationLevel || '',
     result.reputation.flaggedByCarriers.join('; ') || '',
-    result.cnam?.registered ? 'Yes' : 'No',
+    result.cnam?.registered === null ? 'N/A' : result.cnam?.registered ? 'Yes' : 'No',
     result.cnam?.displayName || '',
     result.disconnected ? 'Yes' : 'No',
     result.reassigned ? 'Yes' : 'No',
+    result.healthScore?.recommendations?.join('; ') || '',
     new Date(result.timestamp).toISOString()
   ]);
 
